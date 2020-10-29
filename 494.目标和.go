@@ -54,6 +54,25 @@ func findTargetSumWays(nums []int, S int) int {
 // @lc code=end
 
 /*
+1. 都是类似给你元素和目标，从元素中选取组合达到目标，我觉得这样的问题，都可以归类到背包问题里。
+2.  dp[i][j]表示到第i个字符和为j的方法数。
+    dp[i][j] = dp[i - 1][j - nums[i]] + dp[i - 1][j + nums[i]]
+    dp[i - 1][j - nums[i]] 表示这次是+时的方法数，
+    dp[i - 1][j + nums[i]] 表示这次是-时的方法数。
+    如果我们j正序遍历，把dp数组初始化为0.
+    则上面公式可以转化为：dp[i][j] == 0(计算前)
+    dp[i][j] = dp[i][j] + dp[i - 1][j - nums[i]]
+    dp[i][j] = dp[i][j] + dp[i - 1][j + nums[i]] ==>
+    遍历j时，我们利用上一次dp[i- 1][x]的计算结果，可以每次更新两个dp[i][x]的结果：
+    dp[i][j + nums[i]] = dp[i][j + nums[i]] + dp[i - 1][j]; 此时dp[i][j + nums[i]] = 0
+    dp[i][j - nums[i]] = dp[i][j - nums[i]] + dp[i - 1][j]; 此时dp[i][j - nums[i]] = 0 =>
+    编程如下形式：
+    dp[i][j + nums[i]] += dp[i - 1][j]
+    dp[i][j - nums[i]] += dp[i - 1][j]
+    这样，每次遍历j时，我们不计算dp[i][j]的值，而是利用dp[i - 1][j]的值，更新两个相关dp节点的值，会加速计算
+*/
+
+/*
 	int findTargetSumWays(vector<int>& nums, int S) {
 		int n = nums.size();
 		int sum = accumulate(nums.begin(), nums.end(), 0);
