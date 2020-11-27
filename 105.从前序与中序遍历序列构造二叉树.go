@@ -52,7 +52,9 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 	for i := 1; i < len(preorder); i++ {
 		preorderVal := preorder[i]
 		node := stack[len(stack)-1]
+		// fmt.Println("stack:", stack, "i=", i, "preorder[i]:", preorder[i], "node:", node, "inorderIndex:", inorderIndex, "inorder[inorderIndex]", inorder[inorderIndex])
 		if node.Val != inorder[inorderIndex] {
+			// fmt.Println("node.Left=", node.Val, preorderVal)
 			node.Left = &TreeNode{preorderVal, nil, nil}
 			stack = append(stack, node.Left)
 		} else {
@@ -61,6 +63,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 				stack = stack[:len(stack)-1]
 				inorderIndex++
 			}
+			// fmt.Println("node.Right=", node.Val, preorderVal)
 			node.Right = &TreeNode{preorderVal, nil, nil}
 			stack = append(stack, node.Right)
 		}
