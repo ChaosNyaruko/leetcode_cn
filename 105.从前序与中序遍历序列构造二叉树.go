@@ -34,14 +34,14 @@ func helper(preorder []int, inorder []int, preLeft, preRight, inLeft, inRight in
 	return root
 }
 
-func buildTree_1(preorder []int, inorder []int) *TreeNode {
+func buildTree(preorder []int, inorder []int) *TreeNode {
 	if len(preorder) == 0 {
 		return nil
 	}
 	return helper(preorder, inorder, 0, len(preorder)-1, 0, len(inorder)-1)
 }
 
-func buildTree(preorder []int, inorder []int) *TreeNode {
+func buildTree_1(preorder []int, inorder []int) *TreeNode {
 	if len(preorder) == 0 {
 		return nil
 	}
