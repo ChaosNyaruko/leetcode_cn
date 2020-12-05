@@ -67,7 +67,7 @@
 
 # @lc code=start
 class Solution:
-    def leastInterval(self, tasks: List[str], n: int) -> int:
+    def leastInterval_1(self, tasks: List[str], n: int) -> int:
         freq = collections.Counter(tasks)
 
         m = len(freq)
@@ -89,6 +89,14 @@ class Solution:
             rest[choose] -= 1
 
         return time
+
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        freq = collections.Counter(tasks)
+        maxExec = max(freq.values())
+
+        maxCount = sum(1 for v in freq.values() if v == maxExec)
+
+        return max((maxExec - 1) * (n + 1) + maxCount, len(tasks))
 
 # @lc code=end
 
