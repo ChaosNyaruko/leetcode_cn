@@ -32,7 +32,7 @@
 
 # @lc code=start
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
+    def maxProfit_1(self, prices: List[int]) -> int:
         if len(prices) == 0:
             return 0
         # not consider space optimization for comprehension
@@ -46,6 +46,20 @@ class Solution:
             noStockOutCoolDown[i] = max(noStockInCoolDown[i - 1], noStockOutCoolDown[i - 1]) 
         
         return max(noStockOutCoolDown[len(prices) - 1], noStockInCoolDown[len(prices) - 1])
+
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices) == 0:
+            return 0
+        # space optimization 
+        noStockInCoolDown = 0
+        noStockOutCoolDown = 0
+        hasStock = -prices[0]
+        for i in range(1, len(prices)):
+            hasStock = max(hasStock, noStockOutCoolDown - prices[i])
+            noStockOutCoolDown = max(noStockInCoolDown, noStockOutCoolDown) 
+            noStockInCoolDown = hasStock + prices[i]
+        
+        return max(noStockOutCoolDown, noStockInCoolDown)
 
 # @lc code=end
 
