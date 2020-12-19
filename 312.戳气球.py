@@ -39,7 +39,7 @@
 
 # @lc code=start
 class Solution:
-    def maxCoins(self, nums: List[int]) -> int:
+    def maxCoins_DFS(self, nums: List[int]) -> int:
         val = [1] + nums + [1]
         n = len(val)
         memo = [[-1 for _ in range(n)] for _ in range(n)]
@@ -60,5 +60,18 @@ class Solution:
         return helper(0, n-1)
 
         
+    def maxCoins(self, nums: List[int]) -> int:
+        val = [1] + nums + [1]
+        n = len(val)
+        memo = [[0 for _ in range(n)] for _ in range(n)]
+        for l in range(1, n - 1):
+            for i in range(0, n - l - 1):
+                j = i + l + 1
+                for mid in range(i + 1, j):
+                    # print("i=%d, len=%d, j=%d, mid=%d" % (i, l, j, mid))
+                    memo[i][j] = max(memo[i][j], val[mid] * val[i] * val[j] + memo[i][mid] + memo[mid][j])
+        
+        return memo[0][n -1]
+
 # @lc code=end
 
