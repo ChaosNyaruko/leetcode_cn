@@ -29,6 +29,7 @@ class Solution:
         ret = 1
         inc, dec, pre = 1, 0, 1
 
+        # 1 3 5 3 2 1
         for i in range(1, n):
             if ratings[i] >= ratings[i - 1]:
                 dec = 0
@@ -38,6 +39,7 @@ class Solution:
             else:
                 dec += 1
                 if dec == inc:
+                    # print("dec=inc", inc, "r[i]=", ratings[i], i)
                     dec += 1
                 ret += dec
                 pre = 1
