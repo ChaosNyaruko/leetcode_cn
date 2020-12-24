@@ -6,7 +6,7 @@
 
 # @lc code=start
 class Solution:
-    def candy(self, ratings: List[int]) -> int:
+    def candy_1(self, ratings: List[int]) -> int:
         n = len(ratings)
         left = [0] * n
         for i in range(n):
@@ -23,6 +23,26 @@ class Solution:
                 right = 1
             res += max(right, left[i])
         return res
+
+    def candy(self, ratings: List[int]) -> int:
+        n = len(ratings)
+        ret = 1
+        inc, dec, pre = 1, 0, 1
+
+        for i in range(1, n):
+            if ratings[i] >= ratings[i - 1]:
+                dec = 0
+                pre = (1 if ratings[i] == ratings[i - 1] else pre + 1)
+                ret += pre
+                inc = pre
+            else:
+                dec += 1
+                if dec == inc:
+                    dec += 1
+                ret += dec
+                pre = 1
+        
+        return ret
 
 # @lc code=end
 
