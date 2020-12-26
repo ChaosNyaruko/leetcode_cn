@@ -50,7 +50,7 @@
 #         self.right = None
 
 class Solution:
-    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+    def mergeTrees_DFS(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
         if not t1:
             return t2
         if not t2:
@@ -59,5 +59,52 @@ class Solution:
         x.left = self.mergeTrees(t1.left, t2.left)
         x.right = self.mergeTrees(t1.right, t2.right)
         return x
+    
+    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        # BFS
+        if not t1:
+            return t2
+        if not t2:
+            return t1
+        q = collections.deque()
+        q1 = collections.deque()
+        q2 = collections.deque()
+        mergedRoot = TreeNode(t1.val + t2.val)
+        q.append(mergedRoot)
+        q1.append(t1)
+        q2.append(t2)
+        while q1 and q2:
+            node = q.popleft()
+            node1 = q1.popleft()
+            node2 = q2.popleft()
+            left1, right1 = node1.left, node1.right
+            left2, right2 = node2.left, node2.right
+            if left1 or left2:
+                if left1 and left2:
+                    left = TreeNode(left1.val + left2.val)
+                    node.left = left
+                    q.append(left)
+                    q1.append(left1)
+                    q2.append(left2)
+                elif left1:
+                    node.left = left1
+                elif left2:
+                    node.left = left2
+            if right1 or right2:
+                if right1 and right2:
+                    right = TreeNode(right1.val + right2.val)
+                    node.right = right
+                    q.append(right)
+                    q1.append(right1)
+                    q2.append(right2)
+                elif right1:
+                    node.right = right1
+                elif right2:
+                    node.right = right2
+
+        return mergedRoot
+
+
+
 # @lc code=end
 
