@@ -8,6 +8,29 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         edges = collections.defaultdict(list)
+        indegs = [0] * numCourses
+        for edge in prerequisites:
+            edges[edge[1]].append(edge[0])
+            indegs[edge[0]] += 1
+        
+        q = collections.deque([u for u in range(numCourses) if indegs[u] == 0])
+        res = []
+        while q:
+            u = q.popleft()
+            res.append(u)
+            for v in edges[u]:
+                indegs[v] -= 1
+                if indegs[v] == 0:
+                    q.append(v)
+        if len(res) != numCourses:
+            return list()
+        return res
+
+        
+        
+ 
+    def findOrder_dfs(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        edges = collections.defaultdict(list)
         for edge in prerequisites:
             edges[edge[1]].append(edge[0])
         
