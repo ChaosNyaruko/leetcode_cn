@@ -59,13 +59,24 @@
 
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        
+        self.stk = [] 
+        for i in range(len(nestedList) - 1, -1, -1):
+            self.stk.append(nestedList[i])
     
     def next(self) -> int:
-        
+        res = self.stk.pop().getInteger()
+        return res
     
     def hasNext(self) -> bool:
-         
+        while self.stk:
+            cur = self.stk[-1]
+            if cur.isInteger():
+                return True
+            self.stk.pop()
+            l = cur.getList()
+            for i in range(len(l) - 1, -1, -1):
+                self.stk.append(l[i])
+        return False
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []
